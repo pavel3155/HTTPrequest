@@ -36,4 +36,34 @@ public class InputScann {
         //sc.close();
         return token;
     }
+    public int menu(){
+        System.out.println("*************************************************************");
+        System.out.println("***        Пример работы с HTTP - запросами               ***");
+        System.out.println("*************************************************************");
+        System.out.println("*** 1. Получить список пользователей с текущей страницы   ***");
+        System.out.println("*** 2. Получить список пользователей произвольной страницы***");
+        System.out.println("*** 3. Добавить на ресурс пользователя                    ***");
+        System.out.println("*** 4. Редактировать добавленного пользователя на ресурсе ***");
+        System.out.println("*** 0. Выход                                              ***");
+        System.out.println("************************************************************");
+        System.out.print("Введите номер запроса:> ");
+        int reqN =sc.nextInt();
+        return reqN;
+    }
+    public int idUser () {
+        System.out.print("Введите id пользователя:> ");
+        int idUser = sc.nextInt();
+        return idUser;
+    }
+    public  Map<String,String> page () {
+        Map<String, String> page = new HashMap<>();
+        System.out.print("Введите N страницы:> ");
+        String pageN=sc.nextLine();
+        page.put("N", pageN);
+        System.out.print("Введите максимальное значение пользователей на странице:> ");
+        String per=sc.nextLine();
+        page.put("per", per);
+        return page;
+    }
+
 }
