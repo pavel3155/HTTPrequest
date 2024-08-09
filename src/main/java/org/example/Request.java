@@ -18,16 +18,22 @@ import java.util.List;
 import java.util.Scanner;
 
 import static java.nio.file.Files.newBufferedReader;
+import static java.nio.file.Files.newOutputStream;
 
 public class Request {
-    String token="";
+    private String token="";
     String strURL;
     HttpURLConnection con;
 
     public Request() {
 
     }
+
     public Request(String token) {
+        this.token="?access-token="+token;
+    }
+
+    public void setToken (String token){
         this.token="?access-token="+token;
     }
 
@@ -62,7 +68,10 @@ public class Request {
             while ((line=br.readLine())!=null){
                 strBuild.append(line);
             }
-            byte[] input=strBuild.toString().getBytes("utf-8");
+            String str =strBuild.toString();
+            System.out.println(str);
+            byte[] input=str.getBytes("utf-8");
+
             os.write(input,0, input.length);
         }
         int responseCode = con.getResponseCode();
@@ -73,7 +82,24 @@ public class Request {
         }
         return get();
     }
+    public User[] getList(String nameFile) throws IOException {
+        BufferedReader br = newBufferedReader(Paths.get(nameFile), StandardCharsets.UTF_8);
+        StringBuilder strBuild=new StringBuilder();
+        String line;
+        while ((line=br.readLine())!=null){
+            strBuild.append(line);
+        }
 
+        Gson gson =new Gson();
+        User[] users=gson.fromJson(strBuild.toString(), User[].class);
+//        Type listOfMyClassObject = new TypeToken<ArrayList<User>>(){}.getType();
+//        List<User> users=gson.fromJson(strBuild.toString(), listOfMyClassObject);
+        System.out.println(users);
+        for (User u:users){
+            System.out.println(u);
+        }
+        return users;
+    }
     public User post(User user) throws Exception {
         Gson gson = new Gson();
         String jsonUser  = gson.toJson(user);
@@ -83,12 +109,17 @@ public class Request {
         }
         int responseCode = con.getResponseCode();
         System.out.println(responseCode);
+
         if(responseCode != 201){
             System.out.println(responseCode);
-            throw new Exception("Error!");
+            System.out.println("Error!");
+            return null;
+            //throw new HTTPException("Error!");
         }
+
         return get();
     }
+
     public User put(User user) throws Exception {
         Gson gson = new Gson();
         String jsonUser  = gson.toJson(user);

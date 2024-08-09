@@ -1,0 +1,23 @@
+[
+  {
+    "id": 7321031,
+    "name": "Hari Bhat",
+    "email": "hari_bhat@kiehn.example",
+    "gender": "male",
+    "status": "inactive"
+  },
+  {
+    "id": 7321030,
+    "name": "Smita Khatri",
+    "email": "smita_khatri@buckridge.example",
+    "gender": "female",
+    "status": "inactive"
+  },
+  {
+    "id": 7321029,
+    "name": "Inder Dhawan",
+    "email": "inder_dhawan@dickinson.test",
+    "gender": "female",
+    "status": "active"
+  }
+]

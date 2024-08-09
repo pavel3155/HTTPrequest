@@ -64,7 +64,9 @@ public class InputScann {
         System.out.println("*** 4. Редактировать пользователя                             ***");
         System.out.println("*** 5. Удалить пользователя                                   ***");
         System.out.println("*** 6. Сохранить пользователей в файл \"users.json\"          ***");
-        System.out.println("*** 7. Добавить пользователя из файла \"user.json\"          ***");
+        System.out.println("*** 7. Добавить пользователя из файла \"ruser.json\"          ***");
+        System.out.println("*** 8. Ваш 'token' на ресурсе 'gorest.co.in'                  ***");
+        System.out.println("*** 9. HttpClient                                             ***");
         System.out.println("*** 0. Выход                                                  ***");
         System.out.println("*****************************************************************");
         System.out.print("Введите номер запроса:> ");

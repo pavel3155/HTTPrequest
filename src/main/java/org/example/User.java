@@ -1,11 +1,14 @@
 package org.example;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class User {
     int id;
     String name;
     String email;
     String gender;
     String status;
+
 
     public User(String name, String email, String gender, String status) {
         this.name = name;

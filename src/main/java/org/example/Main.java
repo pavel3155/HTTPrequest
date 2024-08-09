@@ -1,4 +1,5 @@
 package org.example;
+import java.util.List;
 import java.util.Map;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -6,7 +7,8 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) throws Exception {
         InputScann input = new InputScann();
-        Request request=new Request(input.token());
+        //Request request=new Request(input.token());
+        Request request=new Request();
         Boolean run = true;
         while (run){
             int reqN= input.menu();
@@ -81,11 +83,36 @@ public class Main {
                 }
                 case 7:{
                     String postURL = "https://gorest.co.in/public/v2/users/";
-                    request.connect(postURL,"POST");
-                    request.ReadFromFile("user.json");
-                    request.disconnect();
+                    User[] users = request.getList("ruser.json");
+                    for (User u:users){
+                        request.connect(postURL,"POST");
+                        request.post(u);
+                        request.disconnect();
+                    }
                     break;
                 }
+                case 8:{
+                    request.setToken(input.token());
+                }
+                break;
+                case 9:{
+                    HTTPClient client = new HTTPClient();
+                    client.setToken(input.token());
+                    String postURL = "https://gorest.co.in/public/v2/users/";
+                    client.setURI(postURL);
+                    List<User> users = client.getList("ruser.json");
+                    for (User u:users){
+                        client.Response(client.Request(u));
+                        System.out.println(u);
+                    }
+
+
+
+                    System.out.println(client.getList("ruser.json"));
+
+
+                }
+                break;
                 case 0:{
                     run=false;
                     break;
