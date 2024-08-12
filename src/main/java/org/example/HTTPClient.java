@@ -32,6 +32,8 @@ public class HTTPClient {
     public HttpRequest Request(User user) throws JsonProcessingException {
         ObjectMapper mapper=new ObjectMapper();
         String RequestBody =mapper.writeValueAsString(user);
+        System.out.println(user);
+        System.out.println("request: "+RequestBody);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
                 .POST(HttpRequest.BodyPublishers.ofString(RequestBody))
@@ -39,11 +41,10 @@ public class HTTPClient {
         return request;
     }
     public  void Response(HttpRequest request) throws Exception {
-        HttpResponse response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
+        HttpResponse<Void> response = httpClient.send(request, HttpResponse.BodyHandlers.discarding());
         System.out.println(response.statusCode());
         int responseCode=response.statusCode();
         if(responseCode != 201){
-            System.out.println(responseCode);
             System.out.println("Error!");
         }
     }

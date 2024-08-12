@@ -1,7 +1,10 @@
 package org.example;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonPropertyOrder({"id","name","email","gender","status"})
 public class User {
     int id;
     String name;
@@ -9,8 +12,11 @@ public class User {
     String gender;
     String status;
 
-
-    public User(String name, String email, String gender, String status) {
+    @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+    public User(@JsonProperty("name") String name,
+                @JsonProperty("email") String email,
+                @JsonProperty("gender") String gender,
+                @JsonProperty("status") String status) {
         this.name = name;
         this.email = email;
         this.gender = gender;

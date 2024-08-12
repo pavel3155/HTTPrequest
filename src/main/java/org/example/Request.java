@@ -103,6 +103,7 @@ public class Request {
     public User post(User user) throws Exception {
         Gson gson = new Gson();
         String jsonUser  = gson.toJson(user);
+        System.out.println(jsonUser);
         try(OutputStream os = con.getOutputStream()){
             byte[] input = jsonUser.getBytes("utf-8");
             os.write(input,0, input.length);

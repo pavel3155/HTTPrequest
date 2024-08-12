@@ -103,7 +103,7 @@ public class Main {
                     List<User> users = client.getList("ruser.json");
                     for (User u:users){
                         client.Response(client.Request(u));
-                        System.out.println(u);
+//                        System.out.println(u);
                     }
 
 
