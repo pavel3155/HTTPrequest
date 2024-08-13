@@ -1,23 +1,23 @@
 [
   {
-    "id": 7321031,
-    "name": "Hari Bhat",
-    "email": "hari_bhat@kiehn.example",
+    "id": 7342385,
+    "name": "Rev. Mahesh Bhat",
+    "email": "mahesh_bhat_rev@kunze.example",
     "gender": "male",
     "status": "inactive"
   },
   {
-    "id": 7321030,
-    "name": "Smita Khatri",
-    "email": "smita_khatri@buckridge.example",
-    "gender": "female",
-    "status": "inactive"
+    "id": 7342384,
+    "name": "Chaturaanan Guha DC",
+    "email": "guha_dc_chaturaanan@jacobs.example",
+    "gender": "male",
+    "status": "active"
   },
   {
-    "id": 7321029,
-    "name": "Inder Dhawan",
-    "email": "inder_dhawan@dickinson.test",
-    "gender": "female",
+    "id": 7342383,
+    "name": "Somnath Bhattathiri",
+    "email": "somnath_bhattathiri@fadel.example",
+    "gender": "male",
     "status": "active"
   }
 ]

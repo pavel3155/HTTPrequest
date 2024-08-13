@@ -7,94 +7,103 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) throws Exception {
         InputScann input = new InputScann();
-        //Request request=new Request(input.token());
-        Request request=new Request();
+        HttpUrlConn httpUrlConn =new HttpUrlConn();
         Boolean run = true;
         while (run){
             int reqN= input.menu();
             switch (reqN){
+                //Получить список пользователей с текущей страницы
                 case 1: {
                     String putUrl = "https://gorest.co.in/public/v2/users";
-                    request.connect(putUrl,"GET");
-                    request.getList();
-                    request.disconnect();
+                    httpUrlConn.connect(putUrl,"GET");
+                    httpUrlConn.getList();
+                    httpUrlConn.disconnect();
                     break;
                 }
+                //Получить список пользователей указанной страницы
                 case 2:{
                     Map<String,String> page= input.page();
                     String pageN=page.get("N");
                     String per_page= page.get("per");
                     String putUrl = "https://gorest.co.in/public/v2/users?page="+pageN+"&per_page="+per_page;
-                    request.connect(putUrl,"GET");
-                    request.getList();
-                    request.disconnect();
+                    httpUrlConn.connect(putUrl,"GET");
+                    httpUrlConn.getList();
+                    httpUrlConn.disconnect();
                     break;
                 }
+                //Добавить пользователя
                 case 3:{
                     String postURL = "https://gorest.co.in/public/v2/users/";
-                    request.connect(postURL,"POST");
-                    //User user=request.post(new User("Михаил","mi@list.ru","male","active"));
-                    request.post(input.post()).getId();
-                    request.disconnect();
+                    httpUrlConn.connect(postURL,"POST");
+                    httpUrlConn.post(input.post());
+                    httpUrlConn.disconnect();
                     break;
                 }
+                //Редактировать пользователя
                 case 4: {
                     int idUser = input.idUser();
                     String id = String.valueOf(idUser);
                     String putUrl = "https://gorest.co.in/public/v2/users/" + id;
-                    request.connect(putUrl, "GET");
-                    User user=request.get();
-                    request.disconnect();
-                    request.connect(putUrl, "PUT");
-                    Map<String, String> edit = input.put();
-                    user.name = edit.get("name");
-                    user.email = edit.get("email");
-                    request.put(user);
-                    request.disconnect();
+                    httpUrlConn.connect(putUrl, "GET");
+                    User user= httpUrlConn.get();
+                    httpUrlConn.disconnect();
+                    if (user!= null) {
+                        httpUrlConn.connect(putUrl, "PUT");
+                        Map<String, String> edit = input.put();
+                        user.name = edit.get("name");
+                        user.email = edit.get("email");
+                        httpUrlConn.put(user);
+                        httpUrlConn.disconnect();
+                    }
                     break;
                 }
+                //Удалить пользователя
                 case 5:{
                     int idUser = input.idUser();
                     String id = String.valueOf(idUser);
                     if (id!=null&&!id.isEmpty()) {
                         String delUrl = "https://gorest.co.in/public/v2/users/" + id;
-                        request.connect(delUrl,"GET");
-                        if (request.get()!=null) {
-                            request.disconnect();
+                        httpUrlConn.connect(delUrl,"GET");
+                        if (httpUrlConn.get()!=null) {
+                            httpUrlConn.disconnect();
                             if ("да".equals(input.del())) {
-                                request.connect(delUrl, "DELETE");
-                                request.delete();
-                                request.disconnect();
+                                httpUrlConn.connect(delUrl, "DELETE");
+                                httpUrlConn.delete();
+                                httpUrlConn.disconnect();
                                 System.out.println("Пользователь удален...");
                             } else System.out.println("Удаление отменено...");
-                        } else request.disconnect();
+                        } else httpUrlConn.disconnect();
                     }else System.out.println("!!!не задано id пользователя!!!");
                     break;
                 }
+                //Сериализация в файл "users.json"
                 case 6: {
                     Map<String,String> page= input.page();
                     String pageN=page.get("N");
                     String per_page= page.get("per");
                     String getUrl = "https://gorest.co.in/public/v2/users?page="+pageN+"&per_page="+per_page;
-                    request.connect(getUrl,"GET");
-                    request.WriteToFile("users.json");
-                    request.disconnect();
+                    httpUrlConn.connect(getUrl,"GET");
+                    httpUrlConn.WriteToFile("users.json");
+                    httpUrlConn.disconnect();
                     break;
                 }
+                //Десериализация из файла "ruser.json"
                 case 7:{
                     String postURL = "https://gorest.co.in/public/v2/users/";
-                    User[] users = request.getList("ruser.json");
+                    User[] users = httpUrlConn.getList("ruser.json");
                     for (User u:users){
-                        request.connect(postURL,"POST");
-                        request.post(u);
-                        request.disconnect();
+                        httpUrlConn.connect(postURL,"POST");
+                        httpUrlConn.post(u);
+                        httpUrlConn.disconnect();
                     }
                     break;
                 }
+                // Ввести 'token' для ресурса 'gorest.co.in'
                 case 8:{
-                    request.setToken(input.token());
+                    httpUrlConn.setToken(input.token());
                 }
                 break;
+                //(HttpClient)Десериализация из файла "ruser.json"
                 case 9:{
                     HTTPClient client = new HTTPClient();
                     client.setToken(input.token());
@@ -103,19 +112,18 @@ public class Main {
                     List<User> users = client.getList("ruser.json");
                     for (User u:users){
                         client.Response(client.Request(u));
-//                        System.out.println(u);
                     }
-
-
-
-                    System.out.println(client.getList("ruser.json"));
-
-
                 }
                 break;
+                //Выход
                 case 0:{
                     run=false;
                     break;
+                }
+                //неизвестна команда
+                default:{
+                    System.out.println("Неизвестная команда... Повторите ввод... ");
+
                 }
             }
         }
